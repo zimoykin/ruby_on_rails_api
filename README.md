@@ -1,24 +1,21 @@
-# README
+Create API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1 - create api:
+rails new my_api --api
 
-Things you may want to cover:
+2 -  Create models
+rails generate model City title:string people:integer
+rails generate model People name:string age:integer city:references
 
-* Ruby version
+3 - Create controllers
+rails generate controller Cities
+rails generate controller People
 
-* System dependencies
+4 - Create DB
+rails db:migrate
 
-* Configuration
+5 - Set links city and People
+add this to model city "has_many :people, dependent: :destroy" 
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+99 - Start server
+rails server
