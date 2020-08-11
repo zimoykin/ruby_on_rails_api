@@ -15,7 +15,13 @@ rails generate controller People
 rails db:migrate
 
 5 - Set links city and People
-add this to model city "has_many :people, dependent: :destroy" 
+add this to model city "has_many :people, dependent: :destroy"
+
+6 - add function "index" in city controllers
+    def index
+      @cities = City.all
+      render(json: @cities)
+    end
 
 99 - Start server
 rails server
