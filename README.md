@@ -1,6 +1,6 @@
-Create API
+How to create API?
 
-1 - create api:
+1 - create template api:
 rails new my_api --api
 
 2 -  Create models
