@@ -33,6 +33,10 @@ add this to model city "has_many :people, dependent: :destroy"
 comment port and add bind
 bind        'tcp://10.0.1.7:3000'
 
-#99 - Start server
+#8 - Create user (use console) and get Token
+rails c
+User.create!(email: 'name@pochta.ru' , password: '111' , password_confirmation: '111')
+$ curl -H "Content-Type: application/json" -X POST -d '{"email":"name@pochta.ru","password":"111"}' http://10.0.1.7:3000/authenticate
 
+#99 - Start server
 rails server
