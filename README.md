@@ -38,6 +38,7 @@ bind        'tcp://10.0.1.7:3000'
 
 rails c
 User.create!(email: 'name@pochta.ru' , password: '111' , password_confirmation: '111')
+
 $ curl -H "Content-Type: application/json" -X POST -d '{"email":"name@pochta.ru","password":"111"}' http://10.0.1.7:3000/authenticate
 
 #99 - Start server
