@@ -4,9 +4,15 @@ Rails.application.routes.draw do
   post 'authenticate', to: 'authentication#authenticate'
   get 'welcome/index'
     resources :cities do
-      resources :people
+      resources :people do
+        resources :items
+      end
     end
-    resources :people
+
+    resources :people do
+      resources :items
+    end
+    resources :items
   root 'welcome#index'
-  
+
 end

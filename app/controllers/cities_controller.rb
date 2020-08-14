@@ -1,4 +1,5 @@
 class CitiesController < ApplicationController
+  before_action :set_city, only: [:show, :update, :destroy]
 
   def index
     #byebug
@@ -8,13 +9,29 @@ class CitiesController < ApplicationController
 
 
   def show
-      city = City.find(params[:id])
-      render({:json => city, :include => :people})
+    #byebug
+    #render ({ :json => @city, :include => :people )}
+    #status: :ok
+
+    render :json => @city,
+      :only => [:id, :title, :qpeople],
+      :include => {
+        :people => {
+          :except => [:created_at, :updated_at],
+          :include => {
+            :items => {
+              :only => [:id, :name, :description]
+            }
+          }
+        }
+      }
+
   end
 
 
   def create
-    new_city = City.new(city_params)
+    #byebug
+    new_city = City.new(allowed_params)
     if new_city.save
       render({:json => new_city, :include => :people})
     else
@@ -23,25 +40,17 @@ class CitiesController < ApplicationController
   end
 
 
-  # def update
-  #   @city = City.find (params[:id])
-  #   unless @city.nil?
-  #     if @city.update(city_params)
-  #         render :json => @city, :include => :people
-  #     else
-  #         render :nothing => true, :status => :bad_request
-  #     end
-  #   else
-  #     render :nothing => true, :status => :bad_request
-  #   end
-  # end
-
   def update
     #byebug
-      city = City.find (params[:id])
-      if city.update(allowed_params)
+      if @city.update(allowed_params)
         render({:json => city, :include => :people})
       end
+  end
+
+  private
+
+  def set_city
+    @city = City.find(params[:id])
   end
 
   def allowed_params

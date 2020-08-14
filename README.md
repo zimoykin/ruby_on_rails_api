@@ -42,7 +42,7 @@ add this to model city "has_many :people, dependent: :destroy"
 
 comment port and add bind
 
-bind        'tcp://10.0.1.7:3000'
+bind 'tcp://10.0.1.7:3000'
 
 
 
@@ -59,4 +59,3 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"email":"name@pochta.ru"
 #99 - Start server
 
 rails server
-

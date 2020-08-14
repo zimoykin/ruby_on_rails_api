@@ -1,13 +1,13 @@
 class PeopleController < ApplicationController
+  before_action :set_person, only: [:show, :update]
 
   def index
-    @people = Person.all
-    render({:json => @people, :include => :city})
+    people = Person.all
+    render({:json => people, :include => :city})
   end
 
   def show
-      @person = Person.find(params[:id])
-      render({:json => @person, :include => :city})
+      render({:json => @person, :include => [:city, :items]})
   end
 
   def create
@@ -21,7 +21,6 @@ class PeopleController < ApplicationController
 
   def update
       #byebug
-      @person = Person.find(params[:id])
       unless @person.nil?
         if @person.update(person_params)
             render({:json => @person, :include => :city})
@@ -39,7 +38,13 @@ class PeopleController < ApplicationController
      @person.destroy
   end
 
-  private def person_params
+  private
+
+  def set_person
+     @person = Person.find(params[:id])
+  end
+
+  def person_params
       #byebug
       params.permit(:name, :age, :city_id)
   end

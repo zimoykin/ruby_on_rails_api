@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-
+byebug
     if @item.save
       render json: @item, status: :created, location: @item
     else
@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
     end
 
     def item_params
-      params.require(:item).permit(:name, :description , :picture)
+      params.permit(:name, :description, :person_id)
     end
 
 end
