@@ -1,72 +1,55 @@
-class CitiesController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :set_city, only: [:show, :update, :destroy]
+class CitiesController < ApplicationController
+  before_action :set_city, only: %i[show update destroy]
 
   def index
-    #byebug
+    # byebug
     cities = City.all.order(qpeople: :desc)
-    render :json => cities,
-      :only => [:id, :title, :qpeople],
-      :include => {
-        :people => {
-          :except => [:created_at, :updated_at],
-          :include => {
-            :items => {
-              :only => [:id, :name, :description]
-            }
-          }
-        }
-      },
-      status: :ok
+    render json: cities,
+           only: %i[id title qpeople],
+           include: {
+             people: {
+               except: %i[created_at updated_at],
+               include: {
+                 items: {
+                   only: %i[id name description]
+                 }
+               }
+             }
+           },
+           status: :ok
   end
-
 
   def show
-    #byebug
-    #render ({ :json => @city, :include => :people )}
-    #status: :ok
-
-    render :json => @city,
-      :only => [:id, :title, :qpeople],
-      :include => {
-        :people => {
-          :except => [:created_at, :updated_at],
-          :include => {
-            :items => {
-              :only => [:id, :name, :description]
-            }
-          }
-        }
-      },
-      status: :ok
+    render json: @city, only: %i[id title qpeople], include: { people: { except: %i[created_at updated_at], include: { items: {only: %i[id name description]}}}},
+           status: :ok
   end
 
-
   def create
-    #byebug
+    # byebug
     new_city = City.new(allowed_params)
     if new_city.save
-      render({:json => new_city, :except => [:created_at, :updated_at], status: :ok})
+      render({ json: new_city, except: %i[created_at updated_at], status: :ok })
     else
-      render({nothing: true, status: :bad_request})
+      render({ nothing: true, status: :bad_request })
     end
   end
 
-
   def update
-    #byebug
-      if @city.update(allowed_params)
-        render({:json => @city, :except => [:created_at, :updated_at], :include => :people,
-          status: :ok})
-      end
+    # byebug
+    if @city.update(allowed_params)
+      render({ json: @city, except: %i[created_at updated_at], include: :people,
+               status: :ok })
+    end
   end
 
   def destroy
     if @city.destroy
-      render ({ :json => @city, :except => [:created_at, :updated_at], :include => :people,
-      status: :ok})
+      render({ json: @city, except: %i[created_at updated_at], include: :people,
+               status: :ok })
     else
-      render({nothing: true, status: :bad_request})
+      render({ nothing: true, status: :bad_request })
     end
   end
 
@@ -79,5 +62,4 @@ class CitiesController < ApplicationController
   def allowed_params
     params.permit(:title, :qpeople)
   end
-
 end

@@ -1,52 +1,53 @@
+# frozen_string_literal: true
+
 class PeopleController < ApplicationController
-  before_action :set_person, only: [:show, :update]
+  before_action :set_person, only: %i[show update]
 
   def index
     people = Person.all
-    render({:json => people, :include => :city})
+    render({ json: people, include: :city })
   end
 
   def show
-      render({:json => @person, :include => [:city, :items]})
+    render({ json: @person, include: %i[city items] })
   end
 
   def create
     @new_person = Person.new(person_params)
     if @new_person.save
-      render({:json => @new_person, :include => :city})
+      render({ json: @new_person, include: :city })
     else
-      render({nothing: true, status: :bad_request})
+      render({ nothing: true, status: :bad_request })
     end
   end
 
   def update
-      #byebug
-      unless @person.nil?
-        if @person.update(person_params)
-            render({:json => @person, :include => :city})
-        else
-          render({nothing: true, status: :bad_request})
-        end
+    # byebug
+    if @person.nil?
+      render({ nothing: true, status: :bad_request })
+    else
+      if @person.update(person_params)
+        render({ json: @person, include: :city })
       else
-          render({nothing: true, status: :bad_request})
+        render({ nothing: true, status: :bad_request })
       end
+    end
   end
-  #update
+  # update
 
   def destroy
-     @person = Person.find(params[:id])
-     @person.destroy
+    @person = Person.find(params[:id])
+    @person.destroy
   end
 
   private
 
   def set_person
-     @person = Person.find(params[:id])
+    @person = Person.find(params[:id])
   end
 
   def person_params
-      #byebug
-      params.permit(:name, :age, :city_id)
+    # byebug
+    params.permit(:name, :age, :city_id)
   end
-
 end

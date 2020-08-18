@@ -12,8 +12,10 @@ Rails.application.routes.draw do
     resources :people do
       resources :items
     end
+
     resources :items
-  root 'welcome#index'
-   resources :books
+    root 'welcome#index'
+    resources :books
+    resources :likes
 
 end

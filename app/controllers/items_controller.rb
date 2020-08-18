@@ -13,7 +13,6 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-byebug
     if @item.save
       render json: @item, status: :created, location: @item
     else
@@ -35,12 +34,12 @@ byebug
 
   private
 
-    def set_item
-      @item = Item.find(params[:id])
-    end
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
-    def item_params
-      params.permit(:name, :description, :person_id)
-    end
+  def item_params
+    params.permit(:name, :description, :person_id)
+  end
 
 end

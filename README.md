@@ -21,7 +21,6 @@ rails generate controller People
 
 
 #4 - Create DB
-
 rails db:migrate
 
 

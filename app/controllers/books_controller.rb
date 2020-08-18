@@ -10,9 +10,6 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
-  def show
-  end
-
   def create
     @book = Book.new(book_params)
     if @book.save
@@ -22,8 +19,9 @@ class BooksController < ApplicationController
     end
   end
 
-  private
 
+
+  private
   def book_params
     params.permit(:title, :description, :image, :author)
   end
@@ -31,4 +29,6 @@ class BooksController < ApplicationController
   def set_book
     @book = Book.find(params[:id])
   end
+
+
 end

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_142457) do
+ActiveRecord::Schema.define(version: 2020_08_18_200443) do
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.integer "record_id"
+    t.text "record_type"
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+  end
 
   create_table "books", force: :cascade do |t|
     t.string "title"
@@ -36,6 +44,15 @@ ActiveRecord::Schema.define(version: 2020_08_17_142457) do
     t.index ["person_id"], name: "index_items_on_person_id"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_likes_on_item_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -54,5 +71,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_142457) do
   end
 
   add_foreign_key "items", "people"
+  add_foreign_key "likes", "items"
+  add_foreign_key "likes", "users"
   add_foreign_key "people", "cities"
 end
