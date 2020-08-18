@@ -14,5 +14,6 @@ Rails.application.routes.draw do
     end
     resources :items
   root 'welcome#index'
+   resources :books
 
 end

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_135325) do
+ActiveRecord::Schema.define(version: 2020_08_17_142457) do
+
+  create_table "books", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "author"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "cities", force: :cascade do |t|
     t.string "title"
@@ -25,6 +33,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_135325) do
     t.integer "person_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_items_on_person_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -44,6 +53,6 @@ ActiveRecord::Schema.define(version: 2020_08_13_135325) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "items", "people"
   add_foreign_key "people", "cities"
 end
